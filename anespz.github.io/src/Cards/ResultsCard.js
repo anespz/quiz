@@ -45,33 +45,24 @@ class ResultsCard extends Component {
             .catch(error => console.log('Error:', error));
     }
 
-    saveState() {
-        let doc = this.props.jsonObj;
-        for (let i = 0; i < doc.activities.length; i++) {
-            var act = doc.activities[i];
-            console.log(act);
-            if (act.activity_name === this.state.activity) {
-                console.log('found act!');
-                let results = {};
-                for (let j = 0; j < act.questions.length; j++) {
-                    var qu = act.questions[j];
-                    let k = qu.order;
-                    let val = qu.is_correct === (qu.user_answers[0] === 'CORRECT');
-                    results[k] = val;
-                }
-                this.setState(prevState => ({
-                    results: results,
-                    numQuestion: act.questions.length
-                }));
-            }
+    /**
+     * Get results from the json document. 
+     * @param {*} questionObj - an object containing an activity (task one) or a round (task two)
+     */
+    getResults(obj) {
+        let results = {}
+        for (let j = 0; j < obj.questions.length; j++) {
+            var qu = obj.questions[j];
+            let k = qu.order;
+            let val = qu.is_correct === (qu.user_answers[0] === 'CORRECT');
+            results[k] = val;
+            console.log(results);
         }
+        return results;
     }
 
-    
-
-    getRowsData = () => {
-        let items = this.state.results;
-        let keys = Object.keys(this.state.results);
+    getRowsData(results) {
+        let items = results;
         return Object.keys(items).map((row) => {
             console.log('row: ' + row + '  value: ' + items[row])
             return (<tr key={row}>
@@ -79,7 +70,43 @@ class ResultsCard extends Component {
                 <td > {'' + items[row]} </td>
             </tr>)
         });
+
     }
+
+    getTable() {
+        let name = this.props.activity;
+        console.log(name);
+        if (name === 'Activity Two') {
+            let r1 = this.props.getRoundObj(name, 1);
+            let results1 = this.getResults(r1);
+            let r2 = this.props.getRoundObj(name, 2);
+            let results2 = this.getResults(r2);
+            return (
+                <div className = 'table'>
+                    <div > Round 1 </div>
+                    <div>
+                        {this.getRowsData(results1)}
+                    </div>
+                    <div >Round 2</div>
+                    <div>
+                        {this.getRowsData(results2)}
+                    </div>
+                </div>
+            )
+        } else {
+            let r = this.props.getActivityObj(name);
+            let results = this.getResults(r);
+            return (
+                <div className = 'table'>
+                    <div>
+                        {this.getRowsData(results)}
+                    </div>
+                </div>
+            )
+
+        }
+    }
+
 
     redirect() {
         this.props.history.push('/menu');
@@ -87,8 +114,12 @@ class ResultsCard extends Component {
     }
 
     render() {
+        let table = 'Loading'
+        if (this.props.jsonObj) {
+            table = this.getTable();
+        }
         return (
-            <div className="ResutlsCard">
+            <div className="ResultsCard">
                 <div className=''> {this.state.activity} </div>
                 <div className='resultsHeader'> {'Results'.toUpperCase()} </div>
                 <table>
@@ -97,11 +128,11 @@ class ResultsCard extends Component {
                         <th > b </th>
                     </thead>
                     <tbody>
-                        {this.getRowsData()}
+                        {table}
                     </tbody>
                 </table>
                 <div classname="menuButton">
-                    <button onClick={this.redirect.bind(this)}> MENU </button>
+                    <button onClick={this.redirect.bind(this)}> MENU </ button>
                 </div>
             </div>
         );

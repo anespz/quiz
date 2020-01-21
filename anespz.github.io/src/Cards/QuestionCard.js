@@ -126,7 +126,7 @@ class QuestionCard extends Component {
         })
           .then((response) => response.json())
           .then(() => {
-            let path = this.props.history.location.pathname + 'results/'
+            let path = this.props.history.location.pathname + '/results/'
             this.redirect(path);
           })
       })
@@ -136,36 +136,36 @@ class QuestionCard extends Component {
   }
 
 
-  /**
-   * Only used for testing
-   * @param {*} o 
-   */
-  clearAnswers() {
-    let o = this.props.jsonObj;
-    let act = this.props.getActivityObj(''+this.props.activity)
-    console.log(act)
-    for (let j = 0; j < act.questions.length; j++) {
-      var qu = act.questions[j];
-      qu.user_answers = []; // most recent answer will be collected from user_answers[0]
-    }
-    fetch('http://localhost:3000/payload', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(o)
-    })
-      .then((response) => response.json())
-      .then(() => {
-        console.log('Success: Cleared API');
-        let path = this.props.history.location.pathname + 'results/'
-        this.redirect(path);
-      })
-    this.setState({
-      jsonObj: o,
-      order: 0
-    })
-  }
+  // /**
+  //  * Only used for testing
+  //  * @param {*} o 
+  //  */
+  // clearAnswers() {
+  //   let o = this.props.jsonObj;
+  //   let act = this.props.getActivityObj(''+this.props.activity)
+  //   console.log(act)
+  //   for (let j = 0; j < act.questions.length; j++) {
+  //     var qu = act.questions[j];
+  //     qu.user_answers = []; // most recent answer will be collected from user_answers[0]
+  //   }
+  //   fetch('http://localhost:3000/payload', {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(o)
+  //   })
+  //     .then((response) => response.json())
+  //     .then(() => {
+  //       console.log('Success: Cleared API');
+  //       let path = this.props.history.location.pathname + '/results/'
+  //       this.redirect(path);
+  //     })
+  //   this.setState({
+  //     jsonObj: o,
+  //     order: 0
+  //   })
+  // }
 
 
   getNumRounds() {
@@ -221,9 +221,9 @@ class QuestionCard extends Component {
           <AnswerButton onClick={update} answer='CORRECT' />
           <AnswerButton onClick={update} answer='INCORRECT' />
         </div>
-        <div>
+        {/* <div>
           <button onClick={this.clearAnswers.bind(this)}>clear</button>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -237,9 +237,7 @@ class QuestionCard extends Component {
       this.setState({ round: this.props.round, jsonObj: this.props.jsonObj });
     }
     console.log('did update')
-    console.log(this.props.activity)
-
-  
+    console.log(this.props.activity)  
   }
 }
 

@@ -44,12 +44,13 @@ class Container extends Component {
     }
 
     getActivityObj(name) {
-        console.log(this.state.jsonObj);
+        console.log(this.state.jsonObj);  
         let o = this.state.jsonObj;
         for (let i = 0; i < o.activities.length; i++) {
             let act = o.activities[i];
             if (act.activity_name === name) {
                 console.log('return act')
+                console.log(act);
                 return act;
             }
         }
@@ -61,6 +62,8 @@ class Container extends Component {
         for (let i = 0; i < act.questions.length; i++) {
             let r = act.questions[i];
             if (r.order === round) {
+                console.log('return round');
+                console.log(r);
                 return r;
             }
         }
@@ -107,10 +110,18 @@ class Container extends Component {
                     <MenuCard />
                 </Route>
                 <Route exact path='/activityone/results'>
-                    <ResultsCard activity='Activity One' getActivityJSON={this.getActivityObj.bind(this)} jsonObj={this.state.jsonObj} />
+                    <ResultsCard activity='Activity One' 
+                    getQuestionObj={this.getQuestionObj.bind(this)}
+                    getRoundObj={this.getRoundObj.bind(this)} 
+                    getActivityObj={this.getActivityObj.bind(this)}
+                    jsonObj={this.state.jsonObj} />
                 </Route>
-                <Route exact path='/activitytwo/result'>
-                    <ResultsCard activity='Activity Two' getActivityJSON={this.getActivityObj.bind(this)} jsonObj={this.state.jsonObj} />
+                <Route exact path='/activitytwo/results'>
+                    <ResultsCard activity='Activity Two' 
+                    getQuestionObj={this.getQuestionObj.bind(this)}
+                    getRoundObj={this.getRoundObj.bind(this)} 
+                    getActivityObj={this.getActivityObj.bind(this)}
+                    jsonObj={this.state.jsonObj} />
                 </Route>
             </div>
         );

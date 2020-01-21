@@ -29,7 +29,6 @@ class MenuCard extends Component {
       </div>
     );
   }
-
 }
 
 export default withRouter(MenuCard);
