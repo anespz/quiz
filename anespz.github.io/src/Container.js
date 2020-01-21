@@ -64,7 +64,7 @@ class Container extends Component {
                     <QuestionCard activity='Activity One' question={1} getActivityJSON={this.getActivity.bind(this)} jsonObj={this.state.jsonObj} updateJSON={this.fetchJSON} />
                 </Route>
                 <Route exact path='/activitytwo'>
-                    <QuestionCard activity='Activity Two' round={1} question={1} getActivityJSON={this.getActivity.bind(this)} updateJSON={this.fetchJSON} />
+                    <QuestionCard activity='Activity Two' round={1} question={1} getActivityJSON={this.getActivity.bind(this)} jsonObj={this.state.jsonObj} updateJSON={this.fetchJSON} />
                 </Route>
                 <Route exact path='/menu'>
                     <MenuCard />

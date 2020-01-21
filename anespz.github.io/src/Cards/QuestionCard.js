@@ -10,9 +10,7 @@ class QuestionCard extends Component {
     super(props);
     this.state = {
       activity: '',
-      question: '',
       order: '',
-      numOfQuestions: '',
       jsonUrl: { fullUrl },
     };
   }
@@ -25,18 +23,18 @@ class QuestionCard extends Component {
     if (this.props.activity === 'Activity One') {
       return this.props.activity;
     } else {
-      return this.props.activity + ' / ROUND ' + this.props.round;
+      return this.props.activity + ' / ROUND ' + this.state.round;
     }
   }
 
   getQuestion() {
+    console.log('getting Q')
     let act = this.props.getActivityJSON(this.props.activity);
     for (let i = 0; i < act.questions.length; i++) {
       let qu = act.questions[i];
       if (this.props.activity === 'Activity Two') {
-        console.log('in two')
         if (qu.order === this.state.round) {
-          for (let j = 0; j < qu.questions; j++) {
+          for (let j = 0; j < qu.questions.length; j++) {
             let qu2 = qu.questions[j];
             if (qu2.order === this.state.order) {
               return qu2.stimulus;
@@ -45,19 +43,26 @@ class QuestionCard extends Component {
         }
       }
       else {
-        console.log('in one')
         return qu.stimulus;
       }
 
     }
   }
 
+
   getNumQuestions() {
-    let o = this.props.jsonObj;
-    for (let i = 0; i < o.activities.length; i++) {
-      var act = o.activities[i];
-      if (act.activity_name === this.state.activity) {
-        return act.questions.length;
+    let act = this.props.getActivityJSON(this.props.activity);
+    if (this.props.activity === 'Activity One') {
+      console.log('act one length: ' + act.questions.length)
+      return act.questions.length;
+    } else { // Activity Two
+      for (let i = 0; i < act.questions.length; i++) {
+        let qu = act.questions[i];
+        if (qu.order === this.state.round) {
+          console.log('round: ' + this.state.round)
+          console.log('act two length: ' + qu.questions.length)
+          return qu.questions.length
+        }
       }
     }
   }
@@ -73,15 +78,31 @@ class QuestionCard extends Component {
   updateJsonObj(answer) {
     let o = this.props.jsonObj;
     let act = this.props.getActivityJSON('' + this.props.activity);
-    for (let j = 0; j < act.questions.length; j++) {
-      var qu = act.questions[j];
-      if (qu.order === this.state.order) {
-        qu.user_answers.unshift(answer); // most recent answer will be collected from user_answers[0]
-        return new Promise((resolve, reject) => {
-          this.setState({
-            jsonObj: o
-          }, () => { console.log('UPDATED'); resolve(this.props.jsonObj) })
-        });
+    for (let i = 0; i < act.questions.length; i++) {
+      var qu = act.questions[i];
+      if (this.props.activity === 'Activity One') { // Activity Two
+        if (qu.order === this.state.order) {
+          qu.user_answers.unshift(answer); // most recent answer will be collected from user_answers[0]
+          return new Promise((resolve, reject) => {
+            this.setState({
+              jsonObj: o
+            }, () => { console.log('UPDATED'); resolve(this.props.jsonObj) })
+          });
+        }
+      } else { // Activity Two
+        if (qu.order === this.state.round) {
+          for (let j = 0; j < qu.questions.length; j++) {
+            let qu2 = qu.questions[j];
+            if (qu2.order === this.state.order) {
+              qu2.user_answers.unshift(answer); // most recent answer will be collected from user_answers[0]
+              return new Promise((resolve, reject) => {
+                this.setState({
+                  jsonObj: o
+                }, () => { console.log('UPDATED'); resolve(this.props.jsonObj) })
+              });
+            }
+          }
+        }
       }
     }
   }
@@ -97,8 +118,6 @@ class QuestionCard extends Component {
     console.log('answer = ' + userAnswer)
     this.updateJsonObj(userAnswer)
       .then((newJsonObj) => {
-        console.log('update complete, now putting: ');
-        console.log('UPDATE 2:' + newJsonObj.activities[0].questions[0].stimulus);
         fetch('http://localhost:3000/payload', {
           method: 'PUT',
           headers: {
@@ -108,8 +127,7 @@ class QuestionCard extends Component {
         })
           .then((response) => response.json())
           .then(() => {
-            console.log('Success: Updated API with ' + userAnswer);
-            let path = this.props.history.location.pathname + '/results'
+            let path = this.props.history.location.pathname + 'results/'
             this.redirect(path);
           })
       })
@@ -141,7 +159,7 @@ class QuestionCard extends Component {
       .then((response) => response.json())
       .then(() => {
         console.log('Success: Cleared API');
-        let path = this.props.history.location + '/results'
+        let path = this.props.history.location.pathname + 'results/'
         this.redirect(path);
       })
     this.setState({
@@ -150,13 +168,30 @@ class QuestionCard extends Component {
     })
   }
 
-  redirect(path) {
-    if (this.state.activity === 'Activity Two') {
-      let act = this.props.getActivityJSON(this.props.activity);
+
+  getNumRounds() {
+    let act = this.props.getActivityJSON(this.props.activity);
+    if (this.props.activity === 'Activity Two') {
+      console.log('act one length: ' + act.questions.length)
+      return act.questions.length;
+    } else {
+      console.log('this activity has no rounds');
     }
+  }
+
+  redirect(path) {
     if (this.state.order === this.getNumQuestions()) {
-      console.log('reached end!!');
-      this.props.history.push(path);
+      if (this.props.activity === 'Activity One') {
+        console.log('reached end!!');
+        this.props.history.push(path);
+      } else {
+        if (this.state.round === this.getNumRounds()) {
+          console.log('rounds finished!')
+          this.props.history.push(path);
+        }
+        let nextRound = this.state.round + 1;
+        this.setState({ order: 1, round: nextRound });
+      }
     } else {
       let nextQuestion = this.state.order + 1;
       this.setState({ order: nextQuestion });
@@ -164,10 +199,12 @@ class QuestionCard extends Component {
     }
   }
 
+
   render() {
     let qu = '';
     let update = () => console.log("update: null");
-    if (this.props.jsonObj) {
+    if (this.props.jsonObj) { // check if the object has loaded
+      console.log('should get Q now')
       qu = this.getQuestion();
       update = this.updateAnswer.bind(this);
     }
@@ -195,6 +232,10 @@ class QuestionCard extends Component {
   componentDidMount() {
     console.log('didmount')
     this.setState({ order: this.props.question, activity: this.props.activity })
+    if (this.props.activity === 'Activity Two') {
+      console.log('setting state round');
+      this.setState({ round: this.props.round });
+    }
   }
 
 
