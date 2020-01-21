@@ -17,26 +17,38 @@ class QuestionCard extends Component {
     };
   }
 
+  getRound() {
+
+  }
+
+  getTitle() {
+    if (this.props.activity === 'Activity One') {
+      return this.props.activity;
+    } else {
+      return this.props.activity + ' / ROUND ' + this.props.round;
+    }
+  }
+
   getQuestion() {
-    let o = this.props.jsonObj;
-    for (let i = 0; i < o.activities.length; i++) {
-      var act = o.activities[i];
-      if (act.activity_name === this.state.activity) {
-        for (let j = 0; j < act.questions.length; j++) {
-          var qu = act.questions[j];
-          if (qu.round_title) {
-            let path = '/' + this.props.history.location + '/round/';
-            this.redirect(path)
-          }
-          if (qu.order === this.state.order) {
-            // logic for activity2
-            if (qu.stimulus) { return qu.stimulus; }
-            else {
-              return (null)
+    let act = this.props.getActivityJSON(this.props.activity);
+    for (let i = 0; i < act.questions.length; i++) {
+      let qu = act.questions[i];
+      if (this.props.activity === 'Activity Two') {
+        console.log('in two')
+        if (qu.order === this.state.round) {
+          for (let j = 0; j < qu.questions; j++) {
+            let qu2 = qu.questions[j];
+            if (qu2.order === this.state.order) {
+              return qu2.stimulus;
             }
           }
         }
       }
+      else {
+        console.log('in one')
+        return qu.stimulus;
+      }
+
     }
   }
 
@@ -140,6 +152,7 @@ class QuestionCard extends Component {
 
   redirect(path) {
     if (this.state.activity === 'Activity Two') {
+      let act = this.props.getActivityJSON(this.props.activity);
     }
     if (this.state.order === this.getNumQuestions()) {
       console.log('reached end!!');
@@ -161,7 +174,7 @@ class QuestionCard extends Component {
     return (
       <div className="QuestionCard" >
         <div className="QuestionHeader">
-          <p>{this.state.activity}</p>
+          <p>{this.getTitle()} </p>
           <p>Q{this.state.order}.</p>
         </div>
         <div className="Question">
