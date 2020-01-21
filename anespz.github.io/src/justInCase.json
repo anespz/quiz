@@ -61,6 +61,8 @@
                   "CORRECT",
                   "CORRECT",
                   "CORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "CORRECT"
                 ],
                 "feedback": "Watching films at home is *cheaper* than at the cinema."
@@ -74,11 +76,14 @@
                   "CORRECT",
                   "CORRECT",
                   "CORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "INCORRECT"
                 ],
                 "feedback": "On the one hand, small cameras are comfortable. *On the other hand*, larger ones take better photos."
               }
-            ]
+            ],
+            "user_answers": []
           },
           {
             "round_title": "Round 2",
@@ -89,6 +94,8 @@
                 "stimulus": "I can't go out because I *haven't finished* my homework yet.",
                 "order": 1,
                 "user_answers": [
+                  "CORRECT",
+                  "CORRECT",
                   "CORRECT",
                   "CORRECT",
                   "CORRECT"
@@ -102,11 +109,14 @@
                 "user_answers": [
                   "CORRECT",
                   "CORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "INCORRECT"
                 ],
                 "feedback": "My friend *likes listening* to songs in English"
               }
-            ]
+            ],
+            "user_answers": []
           }
         ]
       }

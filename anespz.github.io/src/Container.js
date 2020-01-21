@@ -38,19 +38,46 @@ class Container extends Component {
                 }, () => {
                     console.log('state set!!!');
                     console.log('' + this.state.jsonObj.activities[0].questions[0].stimulus);
-                    return this.state.jsonObj;
                 });
             })
             .catch(error => console.log('Error:', error));
     }
 
-    getActivity(name) {
+    getActivityObj(name) {
         console.log(this.state.jsonObj);
         let o = this.state.jsonObj;
         for (let i = 0; i < o.activities.length; i++) {
             let act = o.activities[i];
             if (act.activity_name === name) {
+                console.log('return act')
                 return act;
+            }
+        }
+    }
+
+    getRoundObj(name, round) {
+        console.log('getting round')
+        let act = this.getActivityObj(name);
+        for (let i = 0; i < act.questions.length; i++) {
+            let r = act.questions[i];
+            if (r.order === round) {
+                return r;
+            }
+        }
+    }
+
+    getQuestionObj(name, round, order) {
+        let obj = null;
+        if (name === 'Activity Two') {
+            obj = this.getRoundObj(name, round)
+        }
+        else {
+            obj = this.getActivityObj(name);
+        }
+        for (let j = 0; j < obj.questions.length; j++) {
+            let qu = obj.questions[j];
+            if (qu.order === order) {
+                return qu;
             }
         }
     }
@@ -61,19 +88,29 @@ class Container extends Component {
             <div className="App">
                 <Route exact path='/activityone'>
                     {/* <QuestionCard activity='Activity One' question={1} jsonObj={this.state.jsonObj} updateJSON={this.fetchJSON} /> */}
-                    <QuestionCard activity='Activity One' question={1} getActivityJSON={this.getActivity.bind(this)} jsonObj={this.state.jsonObj} updateJSON={this.fetchJSON} />
+                    <QuestionCard activity='Activity One'
+                        question={1}
+                        getQuestionObj={this.getQuestionObj.bind(this)}
+                        getActivityObj={this.getActivityObj.bind(this)}
+                        jsonObj={this.state.jsonObj}
+                        updateJSON={this.fetchJSON} />
                 </Route>
                 <Route exact path='/activitytwo'>
-                    <QuestionCard activity='Activity Two' round={1} question={1} getActivityJSON={this.getActivity.bind(this)} jsonObj={this.state.jsonObj} updateJSON={this.fetchJSON} />
+                    <QuestionCard activity='Activity Two'
+                        round={1} question={1}
+                        getQuestionObj={this.getQuestionObj.bind(this)}
+                        getActivityObj={this.getActivityObj.bind(this)}
+                        jsonObj={this.state.jsonObj}
+                        updateJSON={this.fetchJSON} />
                 </Route>
                 <Route exact path='/menu'>
                     <MenuCard />
                 </Route>
                 <Route exact path='/activityone/results'>
-                    <ResultsCard activity='Activity One' />
+                    <ResultsCard activity='Activity One' getActivityJSON={this.getActivityObj.bind(this)} jsonObj={this.state.jsonObj} />
                 </Route>
                 <Route exact path='/activitytwo/result'>
-                    <ResultsCard activity='Activity Two' />
+                    <ResultsCard activity='Activity Two' getActivityJSON={this.getActivityObj.bind(this)} jsonObj={this.state.jsonObj} />
                 </Route>
             </div>
         );
@@ -81,8 +118,9 @@ class Container extends Component {
 
 
     componentDidMount() {
-        console.log('mounted container')
+        console.log('mounting container')
         this.fetchJSON();
+        console.log('mount done')
     }
 
 

@@ -29,7 +29,7 @@ class QuestionCard extends Component {
 
   getQuestion() {
     console.log('getting Q')
-    let act = this.props.getActivityJSON(this.props.activity);
+    let act = this.props.getActivityObj(''+this.props.activity);
     for (let i = 0; i < act.questions.length; i++) {
       let qu = act.questions[i];
       if (this.props.activity === 'Activity Two') {
@@ -45,13 +45,12 @@ class QuestionCard extends Component {
       else {
         return qu.stimulus;
       }
-
     }
   }
 
 
   getNumQuestions() {
-    let act = this.props.getActivityJSON(this.props.activity);
+    let act = this.props.getActivityObj(''+this.props.activity);
     if (this.props.activity === 'Activity One') {
       console.log('act one length: ' + act.questions.length)
       return act.questions.length;
@@ -77,7 +76,7 @@ class QuestionCard extends Component {
    */
   updateJsonObj(answer) {
     let o = this.props.jsonObj;
-    let act = this.props.getActivityJSON('' + this.props.activity);
+    let act = this.props.getActivityObj('' + this.props.activity);
     for (let i = 0; i < act.questions.length; i++) {
       var qu = act.questions[i];
       if (this.props.activity === 'Activity One') { // Activity Two
@@ -143,7 +142,7 @@ class QuestionCard extends Component {
    */
   clearAnswers() {
     let o = this.props.jsonObj;
-    let act = this.props.getActivityJSON(this.props.activity)
+    let act = this.props.getActivityObj(''+this.props.activity)
     console.log(act)
     for (let j = 0; j < act.questions.length; j++) {
       var qu = act.questions[j];
@@ -170,7 +169,7 @@ class QuestionCard extends Component {
 
 
   getNumRounds() {
-    let act = this.props.getActivityJSON(this.props.activity);
+    let act = this.props.getActivityObj(this.props.activity);
     if (this.props.activity === 'Activity Two') {
       console.log('act one length: ' + act.questions.length)
       return act.questions.length;
@@ -205,7 +204,8 @@ class QuestionCard extends Component {
     let update = () => console.log("update: null");
     if (this.props.jsonObj) { // check if the object has loaded
       console.log('should get Q now')
-      qu = this.getQuestion();
+      let act = this.props.activity;
+      qu = this.props.getQuestionObj(act, this.state.round, this.state.order).stimulus;
       update = this.updateAnswer.bind(this);
     }
     return (
@@ -230,15 +230,17 @@ class QuestionCard extends Component {
 
 
   componentDidMount() {
-    console.log('didmount')
-    this.setState({ order: this.props.question, activity: this.props.activity })
+    console.log('did mount')
+    this.setState({ order: this.props.question, activity: this.props.activity})
     if (this.props.activity === 'Activity Two') {
       console.log('setting state round');
-      this.setState({ round: this.props.round });
+      this.setState({ round: this.props.round, jsonObj: this.props.jsonObj });
     }
+    console.log('did update')
+    console.log(this.props.activity)
+
+  
   }
-
-
 }
 
 export default withRouter(QuestionCard);

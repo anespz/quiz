@@ -45,6 +45,29 @@ class ResultsCard extends Component {
             .catch(error => console.log('Error:', error));
     }
 
+    saveState() {
+        let doc = this.props.jsonObj;
+        for (let i = 0; i < doc.activities.length; i++) {
+            var act = doc.activities[i];
+            console.log(act);
+            if (act.activity_name === this.state.activity) {
+                console.log('found act!');
+                let results = {};
+                for (let j = 0; j < act.questions.length; j++) {
+                    var qu = act.questions[j];
+                    let k = qu.order;
+                    let val = qu.is_correct === (qu.user_answers[0] === 'CORRECT');
+                    results[k] = val;
+                }
+                this.setState(prevState => ({
+                    results: results,
+                    numQuestion: act.questions.length
+                }));
+            }
+        }
+    }
+
+    
 
     getRowsData = () => {
         let items = this.state.results;
@@ -88,8 +111,6 @@ class ResultsCard extends Component {
     componentDidMount() {
         console.log('did mount!');
         this.setState({ order: this.props.question, activity: this.props.activity })
-        console.log('props: ' + this.props.activity + '  ' + this.props.question);
-        console.log('state' + this.state.activity + '  ' + this.state.question);
         this.fetchJSON(this.state.activity);
     }
 }
