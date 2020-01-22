@@ -80,7 +80,7 @@ class ResultsCard extends Component {
      * Works similar to redirect in QuestionCard.
      */
     redirect() {
-        this.props.history.push('/menu');
+        this.props.history.push('/');
     }
 
     /**

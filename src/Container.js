@@ -129,7 +129,7 @@ class Container extends Component {
                         jsonObj={this.state.jsonObj}
                         updateJSON={this.fetchJSON} />
                 </Route>
-                <Route exact path='/menu'>
+                <Route exact path='/'>
                     <MenuCard jsonObj={this.state.jsonObj}/>
                 </Route>
                 <Route exact path='/activityone/results'>
