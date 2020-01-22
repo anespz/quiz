@@ -10,24 +10,7 @@ import Container from './Container.js';
 
 function App() {
   return (
-    <div className="App">
       <Container />
-      {/* <Route exact path='/activityone'>
-        <QuestionCard activity='Activity One' question={1}/>
-      </Route>
-      <Route exact path='/activitytwo'>
-        <QuestionCard activity='Activity Two' question={1}/>
-      </Route>
-      <Route exact path='/menu'>
-        <MenuCard />
-      </Route>
-      <Route exact path='/resultsone'>
-        <ResultsCard activity='Activity One'/>
-      </Route>
-      <Route exact path='/resultstwo'>
-        <ResultsCard activity='Activity Two'/>
-      </Route> */}
-    </div>
   );
 }
 

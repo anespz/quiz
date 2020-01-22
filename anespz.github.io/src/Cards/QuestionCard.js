@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AnswerButton from '../AnswerButton.js'
 import { withRouter } from "react-router-dom";
+import {View, Text} from 'react-native'
+import styles from '../Style.js'
 
 class QuestionCard extends Component {
 
@@ -209,22 +211,24 @@ class QuestionCard extends Component {
       update = this.updateAnswer.bind(this);
     }
     return (
-      <div className="QuestionCard" >
-        <div className="QuestionHeader">
-          <p>{this.getTitle()} </p>
-          <p>Q{this.state.order}.</p>
-        </div>
-        <div className="Question">
+      <View className="QuestionCard" style={styles.card}>
+        <Text style={styles.title}>
+          {this.getTitle()}
+        </Text>
+        <Text style={styles.subtitle}>
+          Q{this.state.order}.
+        </Text>
+        <Text style={styles.listelement}>
           {qu}
-        </div>
-        <div className="AnswerSection">
+        </Text>
+        <View style={styles.buttonview}>
           <AnswerButton onClick={update} answer='CORRECT' />
           <AnswerButton onClick={update} answer='INCORRECT' />
-        </div>
+        </View>
         {/* <div>
           <button onClick={this.clearAnswers.bind(this)}>clear</button>
         </div> */}
-      </div>
+      </View>
     );
   }
 

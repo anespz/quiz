@@ -137,8 +137,7 @@ class ResultsCard extends Component {
             </div>
         );
     }
-
-
+    
     componentDidMount() {
         console.log('did mount!');
         this.setState({ order: this.props.question, activity: this.props.activity })

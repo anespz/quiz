@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import QuestionCard from './Cards/QuestionCard.js';
 import './App.css';
+import styles from './Style.js'
 import { Route } from 'react-router-dom'
 import MenuCard from './Cards/MenuCard.js';
 import ResultsCard from './Cards/ResultsCard.js';
+import {View} from 'react-native'
 
 class Container extends Component {
 
@@ -88,7 +90,7 @@ class Container extends Component {
 
     render() {
         return (
-            <div className="App">
+            <View className="container" style={styles.container}>
                 <Route exact path='/activityone'>
                     {/* <QuestionCard activity='Activity One' question={1} jsonObj={this.state.jsonObj} updateJSON={this.fetchJSON} /> */}
                     <QuestionCard activity='Activity One'
@@ -107,7 +109,7 @@ class Container extends Component {
                         updateJSON={this.fetchJSON} />
                 </Route>
                 <Route exact path='/menu'>
-                    <MenuCard />
+                    <MenuCard jsonObj={this.state.jsonObj}/>
                 </Route>
                 <Route exact path='/activityone/results'>
                     <ResultsCard activity='Activity One' 
@@ -123,7 +125,7 @@ class Container extends Component {
                     getActivityObj={this.getActivityObj.bind(this)}
                     jsonObj={this.state.jsonObj} />
                 </Route>
-            </div>
+            </View>
         );
     }
 

@@ -11,35 +11,50 @@
             "is_correct": false,
             "stimulus": "I really enjoy *to play football* with friends.",
             "order": 1,
-            "user_answers": [],
+            "user_answers": [
+              "CORRECT",
+              "CORRECT"
+            ],
             "feedback": "I really enjoy *playing football* with friends."
           },
           {
             "is_correct": true,
             "stimulus": "I think that *starting* a school science magazine is an excellent idea!",
             "order": 2,
-            "user_answers": [],
+            "user_answers": [
+              "CORRECT",
+              "CORRECT"
+            ],
             "feedback": "I think that *starting* a school science magazine is an excellent idea!"
           },
           {
             "is_correct": false,
             "stimulus": "Watching films at home is *more cheaper* than at the cinema.",
             "order": 3,
-            "user_answers": [],
+            "user_answers": [
+              "CORRECT",
+              "CORRECT"
+            ],
             "feedback": "Watching films at home is *cheaper* than at the cinema."
           },
           {
             "is_correct": false,
             "stimulus": "On the one hand, small cameras are comfortable. *In the other hand*, larger ones take better photos.",
             "order": 4,
-            "user_answers": [],
+            "user_answers": [
+              "CORRECT",
+              "CORRECT"
+            ],
             "feedback": "On the one hand, small cameras are comfortable. *On the other hand*, larger ones take better photos."
           },
           {
             "is_correct": false,
             "stimulus": "My friend *like listening* to songs in English",
             "order": 5,
-            "user_answers": [],
+            "user_answers": [
+              "CORRECT",
+              "CORRECT"
+            ],
             "feedback": "My friend *likes listening* to songs in English"
           }
         ]
@@ -57,6 +72,7 @@
                 "stimulus": "Watching films at home is *more cheaper* than at the cinema.",
                 "order": 1,
                 "user_answers": [
+                  "CORRECT",
                   "CORRECT"
                 ],
                 "feedback": "Watching films at home is *cheaper* than at the cinema."
@@ -66,6 +82,7 @@
                 "stimulus": "On the one hand, small cameras are comfortable. *In the other hand*, larger ones take better photos.",
                 "order": 2,
                 "user_answers": [
+                  "CORRECT",
                   "CORRECT"
                 ],
                 "feedback": "On the one hand, small cameras are comfortable. *On the other hand*, larger ones take better photos."
@@ -81,6 +98,7 @@
                 "stimulus": "I can't go out because I *haven't finished* my homework yet.",
                 "order": 1,
                 "user_answers": [
+                  "CORRECT",
                   "INCORRECT"
                 ],
                 "feedback": "I can't go out because I *haven't finished* my homework yet."
@@ -90,6 +108,7 @@
                 "stimulus": "My friend *like listening* to songs in English",
                 "order": 2,
                 "user_answers": [
+                  "CORRECT",
                   "INCORRECT"
                 ],
                 "feedback": "My friend *likes listening* to songs in English"
