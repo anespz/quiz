@@ -39,6 +39,12 @@ The data added from the quiz stays as a history of user answers, for the mock sc
 There is currently no interface method for clearing the user data, as I did this manually when testing. 
 
 
+## Deploying the website
+
+I was planning to deploy the website using github's gh-pages, but just now found out that they don't allow React Routing via the history API, which I have based some of my code on. Hopefully a live demonstration during the interview will be alright. 
+
+
+
 # README by create-react-app 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
