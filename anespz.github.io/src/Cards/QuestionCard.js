@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AnswerButton from '../AnswerButton.js'
 import { withRouter } from "react-router-dom";
 import { View, Text } from 'react-native'
 import styles from '../Style.js'
