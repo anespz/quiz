@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/anespz.github.io/static/css/main.7eca77df.chunk.css",
+    "main.js": "/anespz.github.io/static/js/main.95fc8b99.chunk.js",
+    "main.js.map": "/anespz.github.io/static/js/main.95fc8b99.chunk.js.map",
+    "runtime-main.js": "/anespz.github.io/static/js/runtime-main.e5abd1a2.js",
+    "runtime-main.js.map": "/anespz.github.io/static/js/runtime-main.e5abd1a2.js.map",
+    "static/js/2.31e05302.chunk.js": "/anespz.github.io/static/js/2.31e05302.chunk.js",
+    "static/js/2.31e05302.chunk.js.map": "/anespz.github.io/static/js/2.31e05302.chunk.js.map",
+    "index.html": "/anespz.github.io/index.html",
+    "precache-manifest.1750ccec8bb25a8af0663870000ce8d5.js": "/anespz.github.io/precache-manifest.1750ccec8bb25a8af0663870000ce8d5.js",
+    "service-worker.js": "/anespz.github.io/service-worker.js",
+    "static/css/main.7eca77df.chunk.css.map": "/anespz.github.io/static/css/main.7eca77df.chunk.css.map",
+    "static/js/2.31e05302.chunk.js.LICENSE": "/anespz.github.io/static/js/2.31e05302.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e5abd1a2.js",
+    "static/js/2.31e05302.chunk.js",
+    "static/css/main.7eca77df.chunk.css",
+    "static/js/main.95fc8b99.chunk.js"
+  ]
+}
