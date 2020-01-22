@@ -12,6 +12,9 @@ class MenuCard extends Component {
     }
   }
 
+  /**
+   * Get JSX for the title and subtitle
+   */
   getTitle() {
     let obj = this.props.jsonObj;
     return (
@@ -26,6 +29,10 @@ class MenuCard extends Component {
     );
   }
 
+  /**
+   * Get JSX for the activities, using a mock list where only Activity One and Two 
+   * have been given working links. 
+   */
   getActivityList() {
     const activities = [{ "name": "Activity One" }, { "name": "Activity Two" }, { "name": "Activity Three" }, { "name": "Activity Four" }, { "name": "Activity Five" }];
     const listActivities = activities.map((a) => {
@@ -39,6 +46,10 @@ class MenuCard extends Component {
     return listActivities;
   }
 
+  /**
+   * Will wait for the jsonObj to load before retrieving the 
+   * title for the page. The rest is rendered as usual. 
+   */
   render() {
     let title = <div> </div>;
     if (this.props.jsonObj) {

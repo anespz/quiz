@@ -11,7 +11,9 @@ import {View} from 'react-native'
 class Container extends Component {
 
     constructor(props) {
-        var proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Added to avoid CORS during development.
+        // Note: ended up using a local copy of the .json file (./mockAPI.json) for testing, 
+        // that I ran on a local server (http://localhost:3000/payload') using 'json-server --watch mockAPI.json'
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Hacky, but can be added to avoid CORS during development.
         var fullUrl = proxyUrl + 'https://s3.eu-west-2.amazonaws.com/interview.mock.data/payload.json';
         super(props);
         this.state = {
@@ -21,7 +23,11 @@ class Container extends Component {
     }
 
     /**
-     * Instantiate the QuestionCard with data from the database.
+     * Fetches the full API document (not good for scale) once component is mounted.
+     * Stores it as state.jsonObj. Because fetch is async, this has caused some bugs
+     * when later accessing the jsonObj, eg. the error we get at first load of the question cards. 
+     * 
+     * The temporary solution to run through the demo is to refresh the page, which fixes it. 
      */
     fetchJSON() {
         var proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Added to avoid CORS during development.
@@ -34,30 +40,34 @@ class Container extends Component {
             })
             .then(response => response.json())
             .then(doc => {
-                console.log('found qu!');
                 this.setState({
                     jsonObj: doc,
                 }, () => {
                     console.log('state set!!!');
-                    console.log('' + this.state.jsonObj.activities[0].questions[0].stimulus);
                 });
             })
             .catch(error => console.log('Error:', error));
     }
 
+    /**
+     * Return activity object (contains either question objects or "question objects" that are actually rounds)
+     */
     getActivityObj(name) {
         console.log(this.state.jsonObj);  
         let o = this.state.jsonObj;
         for (let i = 0; i < o.activities.length; i++) {
             let act = o.activities[i];
             if (act.activity_name === name) {
-                console.log('return act')
-                console.log(act);
                 return act;
             }
         }
     }
 
+    /**
+     * Return round object (contains question objects)
+     * @param {String} name - the type of activity 
+     * @param {Int} round - the round order
+     */
     getRoundObj(name, round) {
         console.log('getting round')
         let act = this.getActivityObj(name);
@@ -71,6 +81,12 @@ class Container extends Component {
         }
     }
 
+    /**
+     * Returns a question object (contains the details for each question)
+     * @param {String} name - the type of activity 
+     * @param {Int} round - the round order
+     * @param {Int} order - the question order
+     */
     getQuestionObj(name, round, order) {
         let obj = null;
         if (name === 'Activity Two') {
@@ -87,7 +103,12 @@ class Container extends Component {
         }
     }
 
-
+    /**
+     * Render with routing - depending on which path is pushed to history, 
+     * render the route with that path. 
+     * 
+     * Properties of each card are currently a bit bloated. 
+     */
     render() {
         return (
             <View className="container" style={styles.container}>

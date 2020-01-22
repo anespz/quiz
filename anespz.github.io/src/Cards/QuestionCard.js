@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import AnswerButton from '../AnswerButton.js'
 import { withRouter } from "react-router-dom";
-import {View, Text} from 'react-native'
+import { View, Text } from 'react-native'
 import styles from '../Style.js'
 
+/**
+ * The 
+ */
 class QuestionCard extends Component {
 
   constructor(props) {
@@ -17,9 +20,6 @@ class QuestionCard extends Component {
     };
   }
 
-  getRound() {
-
-  }
 
   getTitle() {
     if (this.props.activity === 'Activity One') {
@@ -29,44 +29,6 @@ class QuestionCard extends Component {
     }
   }
 
-  getQuestion() {
-    console.log('getting Q')
-    let act = this.props.getActivityObj(''+this.props.activity);
-    for (let i = 0; i < act.questions.length; i++) {
-      let qu = act.questions[i];
-      if (this.props.activity === 'Activity Two') {
-        if (qu.order === this.state.round) {
-          for (let j = 0; j < qu.questions.length; j++) {
-            let qu2 = qu.questions[j];
-            if (qu2.order === this.state.order) {
-              return qu2.stimulus;
-            }
-          }
-        }
-      }
-      else {
-        return qu.stimulus;
-      }
-    }
-  }
-
-
-  getNumQuestions() {
-    let act = this.props.getActivityObj(''+this.props.activity);
-    if (this.props.activity === 'Activity One') {
-      console.log('act one length: ' + act.questions.length)
-      return act.questions.length;
-    } else { // Activity Two
-      for (let i = 0; i < act.questions.length; i++) {
-        let qu = act.questions[i];
-        if (qu.order === this.state.round) {
-          console.log('round: ' + this.state.round)
-          console.log('act two length: ' + qu.questions.length)
-          return qu.questions.length
-        }
-      }
-    }
-  }
 
 
   /**
@@ -138,56 +100,45 @@ class QuestionCard extends Component {
   }
 
 
-  // /**
-  //  * Only used for testing
-  //  * @param {*} o 
-  //  */
-  // clearAnswers() {
-  //   let o = this.props.jsonObj;
-  //   let act = this.props.getActivityObj(''+this.props.activity)
-  //   console.log(act)
-  //   for (let j = 0; j < act.questions.length; j++) {
-  //     var qu = act.questions[j];
-  //     qu.user_answers = []; // most recent answer will be collected from user_answers[0]
-  //   }
-  //   fetch('http://localhost:3000/payload', {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(o)
-  //   })
-  //     .then((response) => response.json())
-  //     .then(() => {
-  //       console.log('Success: Cleared API');
-  //       let path = this.props.history.location.pathname + '/results/'
-  //       this.redirect(path);
-  //     })
-  //   this.setState({
-  //     jsonObj: o,
-  //     order: 0
-  //   })
-  // }
+  getNumQuestions() {
+    let act = this.props.getActivityObj('' + this.props.activity);
+    if (this.props.activity === 'Activity One') {
+      return act.questions.length;
+    } else { // Activity Two
+      for (let i = 0; i < act.questions.length; i++) {
+        let qu = act.questions[i];
+        if (qu.order === this.state.round) {
+          return qu.questions.length
+        }
+      }
+    }
+  }
 
 
   getNumRounds() {
     let act = this.props.getActivityObj(this.props.activity);
     if (this.props.activity === 'Activity Two') {
-      console.log('act one length: ' + act.questions.length)
       return act.questions.length;
     } else {
       console.log('this activity has no rounds');
     }
   }
 
+
+  /**
+   * When a question is answered, use this function to decide: 
+   * go to next question, next round, or to a new card?
+   * Missing is a redirect to a "New Round" card with a timer
+   * in between sets of rounds, but ran out of time. 
+   * 
+   * @param {String} path - the new path to push to history
+   */
   redirect(path) {
     if (this.state.order === this.getNumQuestions()) {
       if (this.props.activity === 'Activity One') {
-        console.log('reached end!!');
         this.props.history.push(path);
-      } else {
+      } else { // Activity Two
         if (this.state.round === this.getNumRounds()) {
-          console.log('rounds finished!')
           this.props.history.push(path);
         }
         let nextRound = this.state.round + 1;
@@ -196,16 +147,22 @@ class QuestionCard extends Component {
     } else {
       let nextQuestion = this.state.order + 1;
       this.setState({ order: nextQuestion });
-      console.log('next q : ' + this.state.order);
     }
   }
 
 
+  /**
+   * This render is a bit troublesome, as the wait for this.props.jsonObj
+   * does not fully hinder the error messages caused by the async fetch in Container.js. 
+   * An alternative approach should probably be used. 
+   * 
+   * Gets question info from its Parent component, Container, which holds the jsonObj and 
+   * relevant data retrieval functions. 
+   */
   render() {
     let qu = '';
     let update = () => console.log("update: null");
     if (this.props.jsonObj) { // check if the object has loaded
-      console.log('should get Q now')
       let act = this.props.activity;
       qu = this.props.getQuestionObj(act, this.state.round, this.state.order).stimulus;
       update = this.updateAnswer.bind(this);
@@ -222,26 +179,21 @@ class QuestionCard extends Component {
           {qu}
         </Text>
         <View style={styles.buttonview}>
-          <AnswerButton onClick={update} answer='CORRECT' />
-          <AnswerButton onClick={update} answer='INCORRECT' />
+          <button onClick={() => update('CORRECT')}>{'CORRECT'} </button>
+          <button onClick={() => update('INCORRECT')}>{'INCORRECT'} </button>
         </View>
-        {/* <div>
-          <button onClick={this.clearAnswers.bind(this)}>clear</button>
-        </div> */}
       </View>
     );
   }
 
-
+  /**
+   * Maybe not needed. 
+   */
   componentDidMount() {
-    console.log('did mount')
-    this.setState({ order: this.props.question, activity: this.props.activity})
+    this.setState({ order: this.props.question, activity: this.props.activity })
     if (this.props.activity === 'Activity Two') {
-      console.log('setting state round');
       this.setState({ round: this.props.round, jsonObj: this.props.jsonObj });
     }
-    console.log('did update')
-    console.log(this.props.activity)  
   }
 }
 
