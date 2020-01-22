@@ -37,6 +37,22 @@ export default StyleSheet.create({
     },
     buttonview: {
         flexDirection: 'row',
+    }, 
+    table: {
+        padding: '10px',
+        textAlign: 'center',
+        flexDirection: 'col'
+    },
+    row: {
+        padding: '10px',
+        borderWidth: '1px',
+        borderColor: '#f4f4f4',
+        flexDirection: 'row'
+    }, 
+    cell: {
+        padding: '10px',
+        border: '1px',
+        borderColor: '#f4f4f4'
     }
 
 });

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import styles from '../Style.js';
+import { View, Text } from 'react-native';
 
 class ResultsCard extends Component {
 
@@ -65,10 +67,10 @@ class ResultsCard extends Component {
         let items = results;
         return Object.keys(items).map((row) => {
             console.log('row: ' + row + '  value: ' + items[row])
-            return (<tr key={row}>
-                <td > {'Q' + row} </td>
-                <td > {'' + items[row]} </td>
-            </tr>)
+            return (<View style={styles.row}>
+                <Text style={styles.cell}> {'Q' + row} </Text>
+                <Text style={styles.cell} > {'' + items[row]} </Text>
+            </View>)
         });
 
     }
@@ -82,26 +84,20 @@ class ResultsCard extends Component {
             let r2 = this.props.getRoundObj(name, 2);
             let results2 = this.getResults(r2);
             return (
-                <div className = 'table'>
-                    <div > Round 1 </div>
-                    <div>
-                        {this.getRowsData(results1)}
-                    </div>
-                    <div >Round 2</div>
-                    <div>
-                        {this.getRowsData(results2)}
-                    </div>
-                </div>
+                <View style={styles.table}>
+                    <Text style={styles.row}> Round 1 </Text>
+                    {this.getRowsData(results1)}
+                    <Text style={styles.row}>Round 2</Text>
+                    {this.getRowsData(results2)}
+                </View>
             )
         } else {
             let r = this.props.getActivityObj(name);
             let results = this.getResults(r);
             return (
-                <div className = 'table'>
-                    <div>
-                        {this.getRowsData(results)}
-                    </div>
-                </div>
+                <View style={styles.table}>
+                    {this.getRowsData(results)}
+                </View>
             )
 
         }
@@ -114,30 +110,24 @@ class ResultsCard extends Component {
     }
 
     render() {
-        let table = 'Loading'
+        let table = <div />
         if (this.props.jsonObj) {
             table = this.getTable();
         }
         return (
-            <div className="ResultsCard">
-                <div className=''> {this.state.activity} </div>
-                <div className='resultsHeader'> {'Results'.toUpperCase()} </div>
-                <table>
-                    <thead>
-                        <th > a </th>
-                        <th > b </th>
-                    </thead>
-                    <tbody>
-                        {table}
-                    </tbody>
-                </table>
-                <div classname="menuButton">
+            <View style={styles.card}>
+                <Text style={styles.title}> {this.state.activity.toUpperCase()} </Text>
+                <Text style={styles.subtitle}> {'Results'.toUpperCase()} </Text>
+                <View >
+                    {table}
+                </View>
+                <View style={styles.buttonview}>
                     <button onClick={this.redirect.bind(this)}> MENU </ button>
-                </div>
-            </div>
+                </View>
+            </View>
         );
     }
-    
+
     componentDidMount() {
         console.log('did mount!');
         this.setState({ order: this.props.question, activity: this.props.activity })

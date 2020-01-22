@@ -13,6 +13,9 @@
             "order": 1,
             "user_answers": [
               "CORRECT",
+              "INCORRECT",
+              "CORRECT",
+              "CORRECT",
               "CORRECT"
             ],
             "feedback": "I really enjoy *playing football* with friends."
@@ -22,6 +25,9 @@
             "stimulus": "I think that *starting* a school science magazine is an excellent idea!",
             "order": 2,
             "user_answers": [
+              "CORRECT",
+              "INCORRECT",
+              "CORRECT",
               "CORRECT",
               "CORRECT"
             ],
@@ -33,6 +39,9 @@
             "order": 3,
             "user_answers": [
               "CORRECT",
+              "CORRECT",
+              "CORRECT",
+              "CORRECT",
               "CORRECT"
             ],
             "feedback": "Watching films at home is *cheaper* than at the cinema."
@@ -43,6 +52,9 @@
             "order": 4,
             "user_answers": [
               "CORRECT",
+              "INCORRECT",
+              "CORRECT",
+              "CORRECT",
               "CORRECT"
             ],
             "feedback": "On the one hand, small cameras are comfortable. *On the other hand*, larger ones take better photos."
@@ -52,6 +64,9 @@
             "stimulus": "My friend *like listening* to songs in English",
             "order": 5,
             "user_answers": [
+              "CORRECT",
+              "CORRECT",
+              "CORRECT",
               "CORRECT",
               "CORRECT"
             ],
@@ -72,6 +87,9 @@
                 "stimulus": "Watching films at home is *more cheaper* than at the cinema.",
                 "order": 1,
                 "user_answers": [
+                  "INCORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "CORRECT",
                   "CORRECT"
                 ],
@@ -82,6 +100,9 @@
                 "stimulus": "On the one hand, small cameras are comfortable. *In the other hand*, larger ones take better photos.",
                 "order": 2,
                 "user_answers": [
+                  "INCORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "CORRECT",
                   "CORRECT"
                 ],
@@ -98,6 +119,9 @@
                 "stimulus": "I can't go out because I *haven't finished* my homework yet.",
                 "order": 1,
                 "user_answers": [
+                  "INCORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "CORRECT",
                   "INCORRECT"
                 ],
@@ -108,6 +132,9 @@
                 "stimulus": "My friend *like listening* to songs in English",
                 "order": 2,
                 "user_answers": [
+                  "INCORRECT",
+                  "CORRECT",
+                  "CORRECT",
                   "CORRECT",
                   "INCORRECT"
                 ],
