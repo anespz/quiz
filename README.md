@@ -6,11 +6,17 @@ More instructions on how to run the react app is given in the README generated b
 The main files I have worked on are
 
 - src
+
     |- Cards
+
         |- MenuCard.js
+
         |- QuestionCard.js
+
         |- ResultsCard.js
+
     |- Container.js
+    
     |- Style.js
 
 ## Bugs
